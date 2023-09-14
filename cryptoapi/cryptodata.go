@@ -1,4 +1,4 @@
-package metroapi
+package cryptoapi
 
 import (
 	"encoding/json"

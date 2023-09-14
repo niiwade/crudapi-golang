@@ -1,17 +1,17 @@
 package main
 
 import (
+	"crypto-api/cryptoapi"
 	"io"
 	"log"
-	"metro-api/metroapi"
 	"os"
 )
 
 func main() {
 
-	rosterFile, err := os.OpenFile("weather.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	rosterFile, err := os.OpenFile("crypto-data.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
-		log.Fatalf("error opening the file weather.txt: %v", err)
+		log.Fatalf("error opening the file crypto-data.txt: %v", err)
 	}
 	defer rosterFile.Close()
 
@@ -19,9 +19,9 @@ func main() {
 
 	log.SetOutput(wrt)
 
-	cryptodata, err := metroapi.GetAllCryptoData()
+	cryptodata, err := cryptoapi.GetAllCryptoData()
 	if err != nil {
-		log.Fatalf("error while getting all weather: %v", err)
+		log.Fatalf("error while getting all crypto data: %v", err)
 	}
 
 	for _, data := range cryptodata {

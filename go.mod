@@ -1,4 +1,4 @@
-module metro-api
+module crypto-api
 
 go 1.19
 
