@@ -28,7 +28,15 @@ func main() {
 		log.Println("---------------------")
 		log.Printf("CoinsCount: %d\n", data.CoinsCount)
 		log.Printf("ActiveMarkets: %d\n", data.ActiveMarkets)
-		// Add more fields as needed
+		log.Printf("TotalMcap: %f\n", data.TotalMcap)
+		log.Printf("TotalVolume : %f\n", data.TotalVolume)
+		log.Printf("BtcD: %s\n", data.BtcD)
+		log.Printf("EthD: %s\n", data.EthD)
+		log.Printf("McapChange : %s\n", data.McapChange)
+		log.Printf("VolumeChange: %s\n", data.VolumeChange)
+		log.Printf("AvgChangePercent: %s\n", data.AvgChangePercent)
+		log.Printf("VolumeAth : %d\n", data.VolumeAth)
+		log.Printf("McapAth  : %f\n", data.McapAth)
 		log.Println("---------------------")
 	}
 
