@@ -1,10 +1,18 @@
 package main
 
 import (
+	"context"
+	"crypto-api/controllers"
 	"crypto-api/cryptoapi"
+	"crypto-api/routes"
+	"crypto-api/services"
 	"io"
 	"log"
 	"os"
+
+	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func main() {
@@ -39,5 +47,39 @@ func main() {
 		log.Printf("McapAth  : %f\n", data.McapAth)
 		log.Println("---------------------")
 	}
+
+	// Initialize the Gin router
+	router := gin.Default()
+
+	// Initialize the MongoDB client and connect to your database
+	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017") // Replace with your MongoDB URI
+	client, err := mongo.Connect(context.Background(), clientOptions)
+	if err != nil {
+		log.Fatalf("Error connecting to MongoDB: %v", err)
+	}
+
+	err = client.Ping(context.Background(), nil)
+	if err != nil {
+		log.Fatalf("Error pinging MongoDB server: %v", err)
+	}
+
+	// Access your MongoDB database
+	db := client.Database("crytodata") // Replace with your database name
+
+	// Initialize the CryptoService with the MongoDB database
+	cryptoService := services.NewCryptoService(db)
+
+	// Initialize the CryptoController with the CryptoService
+	cryptoController := controllers.NewCryptoController(cryptoService)
+
+	// Set up CORS middleware, if required
+	// router.Use(cors.Default())
+
+	// Set up your API routes
+	routes.SetupRouter(router, cryptoController)
+
+	// Start the Gin server on a specific port (e.g., :8080)
+	log.Printf("Starting server on port 8080...")
+	router.Run(":8080")
 
 }
