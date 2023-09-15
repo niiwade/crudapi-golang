@@ -4,7 +4,6 @@ import (
 	"crypto-api/controllers"
 	"log"
 	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 

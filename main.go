@@ -52,7 +52,7 @@ func main() {
 	router := gin.Default()
 
 	// Initialize the MongoDB client and connect to your database
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017") // Replace with your MongoDB URI
+	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
 	client, err := mongo.Connect(context.Background(), clientOptions)
 	if err != nil {
 		log.Fatalf("Error connecting to MongoDB: %v", err)
@@ -63,19 +63,20 @@ func main() {
 		log.Fatalf("Error pinging MongoDB server: %v", err)
 	}
 
-	// Access your MongoDB database
-	db := client.Database("crytodata") // Replace with your database name
+// Access your MongoDB database
+db := client.Database("Crytpodb") // Replace with your database name
 
-	// Initialize the CryptoService with the MongoDB database
-	cryptoService := services.NewCryptoService(db)
+// Initialize the CryptoService with the MongoDB database
+cryptoService := services.NewCryptoService(db)
 
-	// Initialize the CryptoController with the CryptoService
-	cryptoController := controllers.NewCryptoController(cryptoService)
+// Initialize the CryptoController with the CryptoService
+cryptoController := controllers.NewCryptoController(cryptoService)
 
-	// Set up CORS middleware, if required
+
+	// CORS middleware,
 	// router.Use(cors.Default())
 
-	// Set up your API routes
+	// Set up API routes
 	routes.SetupRouter(router, cryptoController)
 
 	// Start the Gin server on a specific port (e.g., :8080)

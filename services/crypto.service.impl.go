@@ -2,8 +2,9 @@ package services
 
 import (
 	"context"
-	"errors"
 	"crypto-api/models"
+	"errors"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -16,7 +17,7 @@ type CryptoServiceImpl struct {
 
 // NewCryptoService creates a new instance of CryptoServiceImpl.
 func NewCryptoService(db *mongo.Database) *CryptoServiceImpl {
-	collection := db.Collection("crypto") // Adjust the collection name as needed
+	collection := db.Collection("cryptodata")
 	return &CryptoServiceImpl{collection}
 }
 
@@ -36,7 +37,7 @@ func (s *CryptoServiceImpl) GetData(id *string) (*models.CryptoPrice, error) {
 	err := s.collection.FindOne(context.TODO(), filter).Decode(&result)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			return nil, errors.New("Crypto record not found")
+			return nil, errors.New("crypto record not found")
 		}
 		return nil, err
 	}
