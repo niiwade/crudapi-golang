@@ -1,10 +1,12 @@
 package controllers
 
 import (
-	"github.com/gin-gonic/gin"
-	"net/http"
-	"crypto-api/services"
+	"crypto-api/cryptoapi"
 	"crypto-api/models"
+	"crypto-api/services"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type CryptoController struct {
@@ -71,4 +73,18 @@ func (ctrl *CryptoController) DeleteCryptoRecord(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusNoContent, nil)
+}
+
+func (ctrl *CryptoController) GetCryptoDataController(c *gin.Context) {
+	// Call the GetExternalCryptoData function from cryptoapi package
+	cryptodata, err := cryptoapi.GetExternalCryptoData()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Pass the crypto data to services for further processing
+
+	// Return the crypto data as JSON
+	c.JSON(http.StatusOK, cryptodata)
 }

@@ -1,3 +1,3 @@
 package cryptoapi
 
-const baseURL = "https://api.coinlore.net/api/"
+const baseURL = "https://api.coinlore.net/api"

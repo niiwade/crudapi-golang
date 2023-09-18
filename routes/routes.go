@@ -4,6 +4,7 @@ import (
 	"crypto-api/controllers"
 	"log"
 	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,6 +14,12 @@ func SetupRouter(router *gin.Engine, cryptoController *controllers.CryptoControl
 
 	// Read a crypto record by ID
 	router.GET("/crypto/:id", cryptoController.GetCryptoRecord)
+
+	//get from endpoint
+
+	// Corrected route definition
+router.GET("/cryptopoint", cryptoController.GetCryptoDataController)
+
 
 	// Read all crypto records
 	router.GET("/crypto", cryptoController.GetAllCryptoRecords)
