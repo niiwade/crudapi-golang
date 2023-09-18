@@ -76,11 +76,40 @@ func (ctrl *CryptoController) DeleteCryptoRecord(c *gin.Context) {
 }
 
 func (ctrl *CryptoController) GetCryptoDataController(c *gin.Context) {
+
+	// Use the cryptoService from the controller
+	cryptoService := ctrl.cryptoService
+
 	// Call the GetExternalCryptoData function from cryptoapi package
 	cryptodata, err := cryptoapi.GetExternalCryptoData()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
+	}
+
+	// Process the fetched data and insert it into MongoDB
+	for _, data := range cryptodata {
+		// Create a CryptoPrice instance
+		cryptoPrice := &models.CryptoPrice{
+			// Map fields from the data to your struct fields
+			CoinsCount:       data.CoinsCount,
+			ActiveMarkets:    data.ActiveMarkets,
+			TotalMcap:        data.TotalMcap,
+			TotalVolume:      data.TotalVolume,
+			BtcD:             data.BtcD,
+			EthD:             data.EthD,
+			McapChange:       data.McapChange,
+			VolumeChange:     data.VolumeChange,
+			AvgChangePercent: data.AvgChangePercent,
+			VolumeAth:        data.VolumeAth,
+			McapAth:          data.McapAth,
+		}
+
+		// Insert the CryptoPrice instance into MongoDB
+		if err := cryptoService.CreateData(cryptoPrice); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
 	}
 
 	// Pass the crypto data to services for further processing

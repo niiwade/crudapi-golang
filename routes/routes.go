@@ -4,7 +4,6 @@ import (
 	"crypto-api/controllers"
 	"log"
 	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,7 +16,7 @@ func SetupRouter(router *gin.Engine, cryptoController *controllers.CryptoControl
 
 	//get from endpoint
 
-	// Corrected route definition
+	//  route for endpoint 
 router.GET("/cryptopoint", cryptoController.GetCryptoDataController)
 
 
